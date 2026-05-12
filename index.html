@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://www.gstatic.com"/>
+<link rel="dns-prefetch" href="https://www.gstatic.com"/>
+<link rel="preconnect" href="https://firestore.googleapis.com"/>
+<link rel="dns-prefetch" href="https://firestore.googleapis.com"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<title>ZenithCrypto — TASKS</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script>
+(function(){var _x=atob('eyJhcGlLZXkiOiJBSXphU3lDSFJ3cV9EMFdtODNmSTZNcEVwT20tZjlJaXBsZzdUNVEiLCJhdXRoRG9tYWluIjoidGl0YW4tYXBleC1tdWx0aXBsYXllci5maXJlYmFzZWFwcC5jb20iLCJwcm9qZWN0SWQiOiJ0aXRhbi1hcGV4LW11bHRpcGxheWVyIiwic3RvcmFnZUJ1Y2tldCI6InRpdGFuLWFwZXgtbXVsdGlwbGF5ZXIuZmlyZWJhc2VzdG9yYWdlLmFwcCIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiNDEzODUwMDczNDgxIiwiYXBwSWQiOiIxOjQxMzg1MDA3MzQ4MTp3ZWI6ODM0ZGVmNTlmNDA3OTRkMjE4MDk1OCIsImRhdGFiYXNlVVJMIjoiaHR0cHM6Ly90aXRhbi1hcGV4LW11bHRpcGxheWVyLWRlZmF1bHQtcnRkYi5hc2lhLXNvdXRoZWFzdDEuZmlyZWJhc2VkYXRhYmFzZS5hcHAifQ==');try{window._FC=JSON.parse(_x);}catch(e){}})();
+var db=null,auth=null,rtdb=null,FS=null,G={};
+(function(){var _t=null;window._showOffline=function(msg){if(document.getElementById('_zco'))return;var d=document.createElement('div');d.id='_zco';d.style.cssText='position:fixed;inset:0;z-index:99999;background:#04060e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;text-align:center;font-family:Orbitron,monospace';d.innerHTML='<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="1.5"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg><div style="font-size:.9rem;font-weight:900;color:#eaecf0;letter-spacing:2px">CONNECTION LOST</div><div style="font-size:.5rem;color:#6c7a96;line-height:2;max-width:280px">'+(msg||'No internet')+'<br><span id="_zco_cd">Retrying in 5s...</span></div><button onclick="window._retryNow&&window._retryNow()" style="padding:11px 28px;border-radius:10px;border:1.5px solid rgba(79,142,247,.4);background:rgba(79,142,247,.1);color:#4f8ef7;font-size:.52rem;cursor:pointer;font-weight:700;font-family:Orbitron,monospace">RETRY NOW</button>';document.body.appendChild(d);var c=5;_t=setInterval(function(){c--;var r=document.getElementById('_zco_cd');if(r)r.textContent=c>0?'Retrying in '+c+'s...':'Retrying...';if(c<=0){clearInterval(_t);window._retryNow&&window._retryNow();}},1000);};window._hideOffline=function(){var d=document.getElementById('_zco');if(d)d.remove();if(_t)clearInterval(_t);};window.addEventListener('online',window._hideOffline);window.addEventListener('offline',function(){window._showOffline('Internet connection lost.');});window.addEventListener('error',function(e){e.preventDefault();return true;},true);window.addEventListener('unhandledrejection',function(e){e.preventDefault();});})();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+:root{
+  --bg:#04060e;--s1:#080d18;--s2:#0c1220;--s3:#111929;--s4:#18243a;
+  --a:#4f8ef7;--a2:#6ba3ff;
+  --gold:#e8b84b;--gold2:#ffd166;
+  --green:#0ecb81;--red:#f6465d;
+  --purple:#7c5df7;--cyan:#22d3ee;--orange:#f7931a;
+  --t1:#eaecf0;--t2:#6c7a96;--t3:#2d3a55;
+  --fnt:'Inter',system-ui,sans-serif;
+  --fhd:'Orbitron',monospace;
+  --fmono:'JetBrains Mono',monospace;
+  --topH:56px;
+}
+html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fnt);overflow-x:hidden}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:rgba(79,142,247,.2);border-radius:2px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes popIn{0%{transform:scale(.88);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes countDown{from{stroke-dashoffset:0}to{stroke-dashoffset:100}}
+
+/* TOPBAR */
+#topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--topH);background:rgba(4,6,14,.97);
+  border-bottom:1px solid rgba(79,142,247,.12);
+  display:flex;align-items:center;padding:0 14px;gap:10px;
+  backdrop-filter:blur(20px);
+}
+.tb-back{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.15s}
+.tb-back:active{background:rgba(79,142,247,.15)}
+.tb-title{font-family:var(--fhd);font-size:.74rem;font-weight:900;flex:1;background:linear-gradient(135deg,#00e5ff,var(--a),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px}
+.slot-chip{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);
+  border-radius:20px;padding:5px 10px;flex-shrink:0;
+}
+.slot-chip-num{font-family:var(--fhd);font-size:.52rem;font-weight:900;color:var(--a)}
+.slot-chip-lbl{font-family:var(--fhd);font-size:.32rem;color:var(--t2)}
+
+/* HERO */
+.hero{
+  margin-top:var(--topH);
+  background:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(79,142,247,.08),transparent 60%),var(--s1);
+  padding:16px 14px 14px;border-bottom:1px solid rgba(255,255,255,.05);
+  position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 90% 50%,rgba(124,93,247,.07),transparent 50%);pointer-events:none}
+.hero-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.hero-name{font-family:var(--fhd);font-size:.44rem;color:var(--t2);margin-bottom:2px}
+.hero-bal{font-family:var(--fmono);font-size:1rem;font-weight:900;color:var(--t1)}
+.vip-pill{
+  display:flex;align-items:center;gap:5px;padding:6px 12px;
+  border-radius:20px;font-family:var(--fhd);font-size:.42rem;font-weight:700;
+}
+.vip-free{background:rgba(255,255,255,.06);color:var(--t2);border:1px solid rgba(255,255,255,.1)}
+.vip-silver{background:rgba(192,192,192,.1);color:#c0c0c0;border:1px solid rgba(192,192,192,.25)}
+.vip-gold{background:rgba(232,184,75,.1);color:var(--gold);border:1px solid rgba(232,184,75,.25)}
+.vip-diamond{background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.25)}
+.vip-hacker{background:rgba(246,70,93,.1);color:var(--red);border:1px solid rgba(246,70,93,.25)}
+
+/* SLOT BAR */
+.slot-bar-wrap{margin-bottom:4px}
+.slot-bar-labels{display:flex;justify-content:space-between;margin-bottom:5px}
+.slot-bar-lbl{font-family:var(--fhd);font-size:.36rem;color:var(--t3)}
+.slot-bar-val{font-family:var(--fhd);font-size:.4rem;font-weight:700}
+.slot-track{height:6px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.slot-fill{height:6px;border-radius:4px;background:linear-gradient(90deg,var(--a),var(--purple));transition:width .5s cubic-bezier(.22,.68,0,1.2);position:relative}
+.slot-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);background-size:200% 100%;animation:shimmer 1.8s infinite}
+.slot-exhausted .slot-fill{background:linear-gradient(90deg,var(--red),#cc2039)}
+
+/* EARN SUMMARY */
+.earn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.earn-card{background:var(--s2);border-radius:10px;padding:8px;text-align:center}
+.earn-lbl{font-family:var(--fhd);font-size:.3rem;color:var(--t3);margin-bottom:3px}
+.earn-val{font-family:var(--fmono);font-size:.58rem;font-weight:700}
+
+/* TABS */
+.tabs-wrap{position:sticky;top:var(--topH);z-index:100;background:rgba(4,6,14,.97);border-bottom:1px solid rgba(255,255,255,.05);backdrop-filter:blur(16px)}
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:12px 16px;font-family:var(--fhd);font-size:.5rem;font-weight:700;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.2s;letter-spacing:.5px}
+.tab.active{color:var(--a);border-bottom-color:var(--a)}
+
+/* TASK CARDS */
+#task-list{padding:10px 12px 100px}
+.task-card{
+  display:flex;align-items:center;gap:12px;
+  background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:14px;
+  padding:13px 12px;margin-bottom:8px;
+  animation:fadeUp .3s ease both;
+  transition:border-color .15s;
+  position:relative;overflow:hidden;
+}
+.task-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.03),transparent);pointer-events:none}
+.task-card.done{opacity:.55}
+.task-card.claimable{border-color:rgba(14,203,129,.2)}
+.task-icon{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+}
+.task-body{flex:1;min-width:0}
+.task-name{font-family:var(--fhd);font-size:.54rem;font-weight:700;color:var(--t1);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-desc{font-size:.5rem;color:var(--t2);margin-bottom:6px;line-height:1.4}
+.task-rewards{display:flex;gap:6px;flex-wrap:wrap}
+.reward-chip{display:inline-flex;align-items:center;gap:3px;font-family:var(--fhd);font-size:.34rem;padding:3px 7px;border-radius:5px;font-weight:700}
+.chip-usd{background:rgba(14,203,129,.1);color:var(--green);border:1px solid rgba(14,203,129,.2)}
+.chip-xp{background:rgba(79,142,247,.1);color:var(--a);border:1px solid rgba(79,142,247,.2)}
+.chip-zenz{background:rgba(0,255,204,.08);color:#00ffcc;border:1px solid rgba(0,255,204,.2)}
+.chip-spin{background:rgba(232,184,75,.1);color:var(--gold);border:1px solid rgba(232,184,75,.2)}
+.task-action{flex-shrink:0}
+.btn-claim{
+  padding:9px 14px;border-radius:10px;border:none;
+  font-family:var(--fhd);font-size:.44rem;font-weight:700;cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+}
+.btn-claim:active{transform:scale(.93)}
+.btn-claim.ready{background:linear-gradient(135deg,var(--green),#06a16a);color:#fff;box-shadow:0 4px 16px rgba(14,203,129,.35)}
+.btn-claim.done{background:var(--s3);color:var(--t3);cursor:default}
+.btn-claim.watch{background:linear-gradient(135deg,var(--orange),#cc6600);color:#fff}
+.btn-claim.watching{background:var(--s3);color:var(--t2);cursor:default}
+.btn-claim.create{background:rgba(124,93,247,.15);color:var(--purple);border:1px solid rgba(124,93,247,.3)}
+
+/* COMMUNITY TASK HEADER */
+.comm-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 0;margin-bottom:2px}
+.comm-title{font-family:var(--fhd);font-size:.44rem;color:var(--t3);letter-spacing:1px}
+.btn-create{
+  padding:8px 14px;border-radius:9px;border:none;cursor:pointer;
+  font-family:var(--fhd);font-size:.42rem;font-weight:700;
+  background:linear-gradient(135deg,var(--purple),var(--a));color:#fff;
+  box-shadow:0 3px 12px rgba(124,93,247,.35);transition:.15s;
+}
+.btn-create:active{transform:scale(.95)}
+
+/* SPINNER */
+.spinner-wrap{display:flex;justify-content:center;padding:40px}
+.spinner{width:28px;height:28px;border:2.5px solid rgba(79,142,247,.15);border-top-color:var(--a);border-radius:50%;animation:spin .8s linear infinite}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:40px 20px}
+.empty-icon{font-size:2.5rem;margin-bottom:10px}
+.empty-text{font-family:var(--fhd);font-size:.52rem;color:var(--t3);line-height:1.8}
+
+/* MAX EARN TABLE */
+.earn-table{margin:10px 12px;background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden}
+.earn-table-title{font-family:var(--fhd);font-size:.4rem;color:var(--t3);letter-spacing:1px;padding:10px 12px 6px}
+.et-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-top:1px solid rgba(255,255,255,.04)}
+.et-tier{font-family:var(--fhd);font-size:.44rem;font-weight:700}
+.et-slots{font-size:.42rem;color:var(--t2)}
+.et-earn{font-family:var(--fmono);font-size:.48rem;font-weight:700;color:var(--green)}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:8000;display:none;align-items:flex-end}
+.modal.open{display:flex}
+.modal-ov{position:absolute;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);animation:fadeIn .2s}
+.modal-box{
+  position:relative;width:100%;
+  background:linear-gradient(180deg,var(--s1),var(--bg));
+  border-radius:22px 22px 0 0;border-top:1px solid rgba(255,255,255,.1);
+  padding:0 16px 32px;max-height:90vh;overflow-y:auto;
+  animation:slideUp .25s cubic-bezier(.22,.68,0,1.2);
+  box-shadow:0 -20px 60px rgba(0,0,0,.8);
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-handle{width:40px;height:3px;background:rgba(255,255,255,.12);border-radius:2px;margin:12px auto 0}
+.modal-title{font-family:var(--fhd);font-size:.72rem;font-weight:900;color:var(--t1);padding:16px 0 12px}
+.form-lbl{font-family:var(--fhd);font-size:.38rem;color:var(--t3);letter-spacing:1.5px;display:block;margin:10px 0 5px}
+.form-inp{
+  width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);
+  border-radius:10px;color:var(--t1);font-family:var(--fnt);font-size:.82rem;padding:11px 13px;
+  outline:none;transition:.18s;box-sizing:border-box;
+}
+.form-inp:focus{border-color:rgba(79,142,247,.5);background:rgba(79,142,247,.04)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn-full{
+  width:100%;margin-top:14px;padding:13px;border-radius:11px;border:none;
+  background:linear-gradient(135deg,var(--purple),var(--a));color:#fff;
+  font-family:var(--fhd);font-size:.58rem;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 20px rgba(124,93,247,.45);transition:.15s;
+}
+.btn-full:active{transform:scale(.97)}
+.modal-note{font-family:var(--fhd);font-size:.38rem;color:var(--t3);line-height:1.8;margin-top:10px;text-align:center}
+
+/* AD COUNTDOWN */
+.ad-timer{display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0}
+.ad-timer-ring{position:relative;width:44px;height:44px}
+.ad-timer-ring svg{transform:rotate(-90deg)}
+.ad-timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--fmono);font-size:.6rem;font-weight:700;color:var(--orange)}
+
+/* TOAST */
+#toast{
+  display:none;position:fixed;top:66px;left:50%;transform:translateX(-50%);
+  z-index:99996;background:var(--s1);border-radius:12px;padding:10px 16px;
+  box-shadow:0 8px 32px rgba(0,0,0,.7);border-left:3px solid var(--a);
+  font-family:var(--fhd);font-size:.56rem;font-weight:700;white-space:nowrap;
+  max-width:92vw;overflow:hidden;text-overflow:ellipsis;
+  animation:popIn .2s cubic-bezier(.22,.68,0,1.2);
+}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="tb-back" onclick="history.back()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+  </div>
+  <div class="tb-title">DAILY TASKS</div>
+  <div class="slot-chip" id="slot-chip">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--a)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <span class="slot-chip-num" id="slots-txt">-/-</span>
+    <span class="slot-chip-lbl">SLOTS</span>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-row">
+    <div>
+      <div class="hero-name" id="hero-name">Loading...</div>
+      <div class="hero-bal" id="hero-bal">$0.00</div>
+    </div>
+    <div class="vip-pill vip-free" id="vip-pill">FREE</div>
+  </div>
+
+  <div class="slot-bar-wrap" id="slot-bar-wrap">
+    <div class="slot-bar-labels">
+      <span class="slot-bar-lbl">TASK SLOTS TODAY</span>
+      <span class="slot-bar-val" id="slot-bar-val" style="color:var(--a)">0 / 5</span>
+    </div>
+    <div class="slot-track"><div class="slot-fill" id="slot-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="earn-grid">
+    <div class="earn-card"><div class="earn-lbl">EARNED TODAY</div><div class="earn-val" style="color:var(--green)" id="earned-today">$0.00</div></div>
+    <div class="earn-card"><div class="earn-lbl">XP TODAY</div><div class="earn-val" style="color:var(--a)" id="xp-today">0</div></div>
+    <div class="earn-card"><div class="earn-lbl">ZENZ TODAY</div><div class="earn-val" style="color:#00ffcc" id="zenz-today">0</div></div>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(this,'platform')">⚙ PLATFORM</div>
+    <div class="tab" onclick="switchTab(this,'community')">👥 COMMUNITY</div>
+    <div class="tab" onclick="switchTab(this,'ads')">📺 ADS</div>
+    <div class="tab" onclick="switchTab(this,'info')">📊 REWARDS</div>
+  </div>
+</div>
+
+<div id="task-list"></div>
+
+<!-- Community Task Create Modal -->
+<div class="modal" id="create-modal">
+  <div class="modal-ov" onclick="closeCreateModal()"></div>
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">CREATE COMMUNITY TASK</div>
+    <label class="form-lbl">TASK NAME</label>
+    <input class="form-inp" id="ct-name" placeholder="e.g. Trade BTC once" maxlength="50"/>
+    <label class="form-lbl">DESCRIPTION</label>
+    <input class="form-inp" id="ct-desc" placeholder="What players need to do..." maxlength="100"/>
+    <div class="form-row">
+      <div>
+        <label class="form-lbl">REWARD ($)</label>
+        <input class="form-inp" id="ct-reward" type="number" min="0.10" max="10" step="0.10" placeholder="0.10 – $10.00"/>
+      </div>
+      <div>
+        <label class="form-lbl">MAX SLOTS</label>
+        <input class="form-inp" id="ct-slots" type="number" min="1" max="500" placeholder="e.g. 20"/>
+      </div>
+    </div>
+    <div style="background:var(--s2);border-radius:10px;padding:10px 12px;margin-top:10px;font-family:var(--fhd);font-size:.38rem;color:var(--t3);line-height:1.9">
+      ⚠ <span style="color:var(--t2)">10% platform fee deducted from reward.</span><br>
+      📌 Tasks expire in 24 hours. Unused escrow is returned.<br>
+      🚫 You cannot complete your own task.
+    </div>
+    <div id="ct-cost" style="margin-top:8px;font-family:var(--fhd);font-size:.48rem;text-align:center;color:var(--gold)"></div>
+    <button class="btn-full" onclick="submitCommunityTask()">🚀 PUBLISH TASK</button>
+    <div class="modal-note" id="ct-err" style="color:var(--red)"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════════
+   ZENITHCRYPTO TASKS v1.0
+   Full task economy — platform, community, ads
+   Firebase: completedTasks[], taskSlots, bal, xp
+════════════════════════════════════════════ */
+
+var _tab = 'platform';
+var _todayStr = '';
+var _adTimers = {}; // track ad watching per task
+var _dailyEarned = 0;
+var _dailyXP = 0;
+var _dailyZENZ = 0;
+
+/* ── HELPERS ── */
+function gid(id){return document.getElementById(id);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fP(p){p=parseFloat(p)||0;if(p>=100)return '$'+p.toFixed(2);if(p>=1)return '$'+p.toFixed(2);if(p>=0.01)return '$'+p.toFixed(4);return '$'+p.toFixed(8);}
+function toast(msg,type){
+  var t=gid('toast');if(!t)return;
+  t.textContent=msg;
+  t.style.borderLeftColor=type==='error'?'#f6465d':type==='success'?'#0ecb81':type==='warn'?'#e8b84b':'#4f8ef7';
+  t.style.display='block';clearTimeout(t._tt);
+  t._tt=setTimeout(function(){t.style.display='none';},3200);
+}
+
+/* ── DATE UTILS ── */
+function getTodayUTC(){
+  var d=new Date();
+  return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');
+}
+function getMidnightUTC(){
+  var d=new Date();
+  d.setUTCHours(0,0,0,0);
+  return d.getTime();
+}
+function timeUntilReset(){
+  var now=Date.now();
+  var tmr=getMidnightUTC()+86400000-now;
+  var h=Math.floor(tmr/3600000);
+  var m=Math.floor((tmr%3600000)/60000);
+  return h+'h '+m+'m';
+}
+
+/* ── VIP / SLOTS ── */
+function getVIPTier(){
+  var p=G.activePacks||{};
+  if(p.hacker)return 'hacker';
+  if(p.diamond)return 'diamond';
+  if(p.gold)return 'gold';
+  if(p.silver)return 'silver';
+  return 'free';
+}
+function getMaxSlots(){
+  return {free:5,silver:10,gold:20,diamond:40,hacker:40}[getVIPTier()]||5;
+}
+function getSlotsUsed(){
+  var ts=G.taskSlots||{};
+  if(ts.date!==_todayStr)return 0;
+  return ts.used||0;
+}
+function hasSlotsLeft(){return getSlotsUsed()<getMaxSlots();}
+
+/* ── TASK COMPLETION CHECK ── */
+function isCompleted(taskId){
+  var key=taskId+'_'+_todayStr;
+  return (G.completedTasks||[]).indexOf(key)>=0;
+}
+function markCompleted(taskId){
+  var key=taskId+'_'+_todayStr;
+  if(!G.completedTasks)G.completedTasks=[];
+  if(G.completedTasks.indexOf(key)<0)G.completedTasks.push(key);
+  // Keep array trimmed (last 200 entries)
+  if(G.completedTasks.length>200)G.completedTasks=G.completedTasks.slice(-200);
+}
+
+/* ── SLOT CONSUMPTION ── */
+function consumeSlot(){
+  var ts=G.taskSlots||{};
+  if(ts.date!==_todayStr){ts={date:_todayStr,used:0};}
+  ts.used=(ts.used||0)+1;
+  G.taskSlots=ts;
+}
+
+/* ── SAVE TO FIRESTORE ── */
+function savePlayer(data){
+  if(!G.uid||G.isGuest||!db)return;
+  db.collection('players').doc(G.uid).update(data).catch(function(e){console.warn('save error',e);});
+}
+
+/* ── CLAIM TASK ── */
+function claimTask(taskId,reward,xpR,zenzR,onSuccess){
+  if(!G.uid||G.isGuest){toast('Please log in to earn rewards','error');return;}
+  if(isCompleted(taskId)){toast('Already completed today!','warn');return;}
+  if(!hasSlotsLeft()){toast('No slots left today! Resets '+timeUntilReset(),'error');return;}
+
+  // XP cap: 500/day
+  var curXP=G._dailyXP||0;
+  var earnXP=Math.min(xpR||0,500-curXP);
+
+  // ZENZ cap: 5/day
+  var curZENZ=G._dailyZENZ||0;
+  var earnZENZ=Math.min(zenzR||0,5-curZENZ);
+
+  markCompleted(taskId);
+  consumeSlot();
+
+  G.bal=(parseFloat(G.bal)||0)+reward;
+  G.xp=(parseFloat(G.xp)||0)+earnXP;
+  G._dailyXP=(curXP+earnXP);
+  G._dailyEarned=(parseFloat(G._dailyEarned)||0)+reward;
+  if(earnZENZ>0){G.zenz=(parseFloat(G.zenz)||0)+earnZENZ;G._dailyZENZ=(curZENZ+earnZENZ);}
+
+  var upd={
+    bal:G.bal,xp:G.xp,
+    completedTasks:G.completedTasks,
+    taskSlots:G.taskSlots,
+    _dailyXP:G._dailyXP,
+    _dailyEarned:G._dailyEarned,
+    _dailyZENZ:G._dailyZENZ||0,
+    lastActivity:Date.now()
+  };
+  if(earnZENZ>0)upd.zenz=G.zenz;
+
+  savePlayer(upd);
+  updateHeroUI();
+  toast('+'+fP(reward)+(earnXP>0?' +'+earnXP+' XP':'')+(earnZENZ>0?' +'+earnZENZ+' ZENZ':''),'success');
+  if(onSuccess)onSuccess();
+}
+
+/* ── PLATFORM TASKS ── */
+var PLATFORM_TASKS=[
+  {id:'login_daily',icon:'📅',color:'rgba(232,184,75,.15)',iconColor:'var(--gold)',name:'Daily Login',desc:'Log into ZenithCrypto today',reward:0.05,xp:10,auto:true},
+  {id:'make_trade_1',icon:'⚡',color:'rgba(79,142,247,.15)',iconColor:'var(--a)',name:'Make 1 Trade',desc:'Execute any buy or sell order',reward:0.08,xp:15},
+  {id:'make_trade_5',icon:'📈',color:'rgba(14,203,129,.15)',iconColor:'var(--green)',name:'Make 5 Trades',desc:'Execute 5 trades in one day',reward:0.20,xp:30},
+  {id:'make_trade_10',icon:'🔥',color:'rgba(246,70,93,.15)',iconColor:'var(--red)',name:'Make 10 Trades',desc:'Execute 10 trades in one day',reward:0.40,xp:50},
+  {id:'visit_market',icon:'🏪',color:'rgba(124,93,247,.15)',iconColor:'var(--purple)',name:'Visit Market',desc:'View the live market prices page',reward:0.02,xp:5},
+  {id:'spin_wheel',icon:'🎰',color:'rgba(247,147,26,.15)',iconColor:'var(--orange)',name:'Spin the Wheel',desc:'Use your lucky spin today',reward:0.05,xp:10},
+  {id:'collect_mine',icon:'⛏',color:'rgba(34,211,238,.15)',iconColor:'var(--cyan)',name:'Collect Mining',desc:'Claim your pending mining income',reward:0.05,xp:10},
+  {id:'send_friend',icon:'👫',color:'rgba(232,184,75,.15)',iconColor:'var(--gold)',name:'Send to Friend',desc:'Transfer funds to any player',reward:0.10,xp:20},
+  {id:'buy_crypto',icon:'🛒',color:'rgba(14,203,129,.15)',iconColor:'var(--green)',name:'Buy Any Crypto',desc:'Purchase any cryptocurrency',reward:0.06,xp:12},
+  {id:'sell_crypto',icon:'💸',color:'rgba(246,70,93,.15)',iconColor:'var(--red)',name:'Sell Any Crypto',desc:'Sell any cryptocurrency holding',reward:0.06,xp:12},
+];
+
+function renderPlatformTasks(){
+  var el=gid('task-list');el.innerHTML='';
+  var slotsLeft=hasSlotsLeft();
+  PLATFORM_TASKS.forEach(function(t,i){
+    var done=isCompleted(t.id);
+    var card=document.createElement('div');
+    card.className='task-card'+(done?' done':!done&&slotsLeft?' claimable':'');
+    card.style.animationDelay=(i*0.05)+'s';
+    var rewardChips='<span class="reward-chip chip-usd">+'+fP(t.reward)+'</span>';
+    if(t.xp)rewardChips+='<span class="reward-chip chip-xp">+'+t.xp+' XP</span>';
+    card.innerHTML=
+      '<div class="task-icon" style="background:'+t.color+'">'+t.icon+'</div>'+
+      '<div class="task-body">'+
+        '<div class="task-name">'+esc(t.name)+'</div>'+
+        '<div class="task-desc">'+esc(t.desc)+'</div>'+
+        '<div class="task-rewards">'+rewardChips+'</div>'+
+      '</div>'+
+      '<div class="task-action">'+
+        (done
+          ?'<div class="btn-claim done">✓ DONE</div>'
+          :slotsLeft
+            ?'<button class="btn-claim ready" onclick="claimPlatformTask(\''+t.id+'\','+t.reward+','+t.xp+',0)">CLAIM</button>'
+            :'<div class="btn-claim done">NO SLOTS</div>'
+        )+
+      '</div>';
+    el.appendChild(card);
+  });
+
+  // Resets info
+  var info=document.createElement('div');
+  info.style.cssText='text-align:center;padding:20px;font-family:var(--fhd);font-size:.4rem;color:var(--t3)';
+  info.textContent='Resets in '+timeUntilReset()+' (UTC midnight)';
+  el.appendChild(info);
+}
+
+function claimPlatformTask(taskId,reward,xp,zenz){
+  claimTask(taskId,reward,xp,zenz,function(){
+    renderPlatformTasks();
+  });
+}
+
+/* ── COMMUNITY TASKS ── */
+function renderCommunityTasks(){
+  var el=gid('task-list');
+  el.innerHTML='';
+
+  // Create task button (Silver VIP+ only)
+  var tier=getVIPTier();
+  var canCreate=(tier==='silver'||tier==='gold'||tier==='diamond'||tier==='hacker');
+  var header=document.createElement('div');
+  header.className='comm-header';
+  header.innerHTML='<div class="comm-title">ACTIVE COMMUNITY TASKS</div>'+(canCreate?'<button class="btn-create" onclick="openCreateModal()">+ CREATE TASK</button>':'<div style="font-family:var(--fhd);font-size:.36rem;color:var(--t2)">Silver VIP+ to create</div>');
+  el.appendChild(header);
+
+  if(!db){
+    el.innerHTML+='<div class="spinner-wrap"><div class="spinner"></div></div>';
+    return;
+  }
+
+  var spinner=document.createElement('div');spinner.className='spinner-wrap';spinner.innerHTML='<div class="spinner"></div>';
+  el.appendChild(spinner);
+
+  db.collection('communityTasks')
+    .where('status','==','active')
+    .limit(30)
+    .get()
+    .then(function(snap){
+      spinner.remove();
+      if(snap.empty){
+        var empty=document.createElement('div');empty.className='empty';
+        empty.innerHTML='<div class="empty-icon">📭</div><div class="empty-text">No community tasks right now.<br>'+(canCreate?'Be the first to create one!':'Upgrade to Silver VIP to create tasks.')+'</div>';
+        el.appendChild(empty);return;
+      }
+      snap.forEach(function(doc,idx){
+        var t=doc.data();
+        var taskId='comm_'+doc.id;
+        var done=isCompleted(taskId);
+        var isOwn=(t.creatorUid===G.uid);
+        var slotsLeft=(t.slotsUsed||0)<(t.slots||1);
+        var slotsAvail=hasSlotsLeft();
+        var canClaim=!done&&!isOwn&&slotsLeft&&slotsAvail;
+        var reward=parseFloat(t.rewardPerSlot||t.reward||0);
+        var netReward=reward*(1-0.1); // 10% fee taken already at creation
+
+        var card=document.createElement('div');
+        card.className='task-card'+(done||isOwn?' done':canClaim?' claimable':'');
+        card.style.animationDelay=(idx*0.05)+'s';
+        var expiry=t.expiry?new Date(t.expiry.toMillis?t.expiry.toMillis():t.expiry):null;
+        var expiryStr=expiry?'Expires: '+expiry.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}):'';
+        card.innerHTML=
+          '<div class="task-icon" style="background:rgba(124,93,247,.15)">📋</div>'+
+          '<div class="task-body">'+
+            '<div class="task-name">'+esc(t.name||'Community Task')+'</div>'+
+            '<div class="task-desc">'+esc(t.description||t.desc||'Complete this task')+'</div>'+
+            '<div style="font-family:var(--fhd);font-size:.33rem;color:var(--t3);margin-bottom:5px">by '+esc(t.creatorName||'Player')+' · '+(t.slotsUsed||0)+'/'+(t.slots||'?')+' claimed'+' · '+expiryStr+'</div>'+
+            '<div class="task-rewards"><span class="reward-chip chip-usd">+'+fP(netReward)+'</span></div>'+
+          '</div>'+
+          '<div class="task-action">'+
+            (isOwn
+              ?'<div class="btn-claim done">YOURS</div>'
+              :done
+                ?'<div class="btn-claim done">✓ DONE</div>'
+                :!slotsLeft
+                  ?'<div class="btn-claim done">FULL</div>'
+                  :!slotsAvail
+                    ?'<div class="btn-claim done">NO SLOTS</div>'
+                    :'<button class="btn-claim ready" onclick="claimCommunityTask(\''+doc.id+'\','+netReward+')">CLAIM</button>'
+            )+
+          '</div>';
+        el.appendChild(card);
+      });
+    })
+    .catch(function(e){
+      spinner.remove();
+      var err=document.createElement('div');err.className='empty';
+      err.innerHTML='<div class="empty-icon">⚠</div><div class="empty-text">Could not load community tasks.<br>Check your connection.</div>';
+      el.appendChild(err);
+    });
+}
+
+function claimCommunityTask(docId,netReward){
+  if(!G.uid||G.isGuest){toast('Please log in','error');return;}
+  var taskId='comm_'+docId;
+  if(isCompleted(taskId)){toast('Already completed!','warn');return;}
+  if(!hasSlotsLeft()){toast('No slots left today!','error');return;}
+
+  // Update Firestore community task slot count + player reward
+  var batch=db.batch();
+  batch.update(db.collection('communityTasks').doc(docId),{
+    slotsUsed:FS.FieldValue.increment(1),
+    completers:FS.FieldValue.arrayUnion(G.uid)
+  });
+  batch.update(db.collection('players').doc(G.uid),{
+    bal:FS.FieldValue.increment(netReward),
+    xp:FS.FieldValue.increment(15),
+    completedTasks:FS.FieldValue.arrayUnion(taskId+'_'+_todayStr),
+    'taskSlots.used':FS.FieldValue.increment(1),
+    'taskSlots.date':_todayStr,
+    _dailyEarned:FS.FieldValue.increment(netReward)
+  });
+  batch.commit().then(function(){
+    markCompleted(taskId);consumeSlot();
+    G.bal=(parseFloat(G.bal)||0)+netReward;
+    G.xp=(parseFloat(G.xp)||0)+15;
+    G._dailyEarned=(parseFloat(G._dailyEarned)||0)+netReward;
+    updateHeroUI();
+    toast('+'+fP(netReward)+' +15 XP claimed!','success');
+    renderCommunityTasks();
+  }).catch(function(e){toast('Error: '+e.message,'error');});
+}
+
+/* ── AD TASKS ── */
+var AD_TASKS=[
+  {id:'ad_spin',icon:'🎰',color:'rgba(232,184,75,.15)',name:'Watch Ad → +1 Spin',desc:'Watch a 5s ad to earn a bonus spin',reward:0,spin:1,maxDay:3,dailyKey:'ad_spin'},
+  {id:'ad_cash',icon:'💵',color:'rgba(14,203,129,.15)',name:'Watch Ad → $0.03',desc:'Watch a 5s ad to earn $0.03',reward:0.03,maxDay:5,dailyKey:'ad_cash'},
+  {id:'ad_trades',icon:'⚡',color:'rgba(79,142,247,.15)',name:'Watch 2 Ads → +50 Trades Quota',desc:'Watch 2 ads to unlock 50 extra trade quota',reward:0,trades:50,maxDay:1,dailyKey:'ad_2trades'},
+];
+
+function getAdCount(adKey){
+  var arr=G.completedTasks||[];
+  var prefix=adKey+'_'+_todayStr+'_';
+  return arr.filter(function(k){return k.indexOf(adKey+'_'+_todayStr)===0;}).length;
+}
+
+function renderAdTasks(){
+  var el=gid('task-list');el.innerHTML='';
+  var now=Date.now();
+  var slotsAvail=hasSlotsLeft();
+
+  AD_TASKS.forEach(function(t,i){
+    var count=getAdCount(t.dailyKey);
+    var maxed=count>=(t.maxDay||1);
+    var watching=_adTimers[t.id]&&_adTimers[t.id].active;
+
+    var card=document.createElement('div');
+    card.className='task-card'+(maxed?' done':'');
+    card.style.animationDelay=(i*0.06)+'s';
+    card.id='ad-card-'+t.id;
+
+    var rewardStr='';
+    if(t.reward>0)rewardStr+='<span class="reward-chip chip-usd">+'+fP(t.reward)+'</span>';
+    if(t.spin)rewardStr+='<span class="reward-chip chip-spin">+'+t.spin+' SPIN</span>';
+    if(t.trades)rewardStr+='<span class="reward-chip chip-xp">+'+t.trades+' TRADES</span>';
+
+    var actionHTML='';
+    if(maxed){
+      actionHTML='<div class="btn-claim done">MAXED ('+(t.maxDay||1)+'/'+t.maxDay+')</div>';
+    } else if(watching){
+      actionHTML='<div class="btn-claim watching">WATCHING...</div>';
+    } else if(!slotsAvail){
+      actionHTML='<div class="btn-claim done">NO SLOTS</div>';
+    } else {
+      actionHTML='<button class="btn-claim watch" onclick="watchAd(\''+t.id+'\')">▶ WATCH AD</button>';
+    }
+
+    card.innerHTML=
+      '<div class="task-icon" style="background:'+t.color+'">'+t.icon+'</div>'+
+      '<div class="task-body">'+
+        '<div class="task-name">'+esc(t.name)+'</div>'+
+        '<div class="task-desc">'+esc(t.desc)+'</div>'+
+        '<div style="font-family:var(--fhd);font-size:.34rem;color:var(--t3);margin-bottom:5px">'+count+'/'+(t.maxDay||1)+' completed today</div>'+
+        '<div class="task-rewards">'+rewardStr+'</div>'+
+      '</div>'+
+      '<div class="task-action" id="ad-action-'+t.id+'">'+actionHTML+'</div>';
+    el.appendChild(card);
+  });
+
+  var note=document.createElement('div');
+  note.style.cssText='text-align:center;padding:16px 14px;font-family:var(--fhd);font-size:.38rem;color:var(--t3);line-height:2';
+  note.innerHTML='📺 Simulated ad experience (no real ads)<br>Each ad requires 5 seconds minimum';
+  el.appendChild(note);
+}
+
+function watchAd(adTaskId){
+  if(_adTimers[adTaskId]&&_adTimers[adTaskId].active)return;
+  var task=AD_TASKS.find(function(t){return t.id===adTaskId;});
+  if(!task)return;
+  if(!hasSlotsLeft()){toast('No task slots left today!','error');return;}
+
+  _adTimers[adTaskId]={active:true};
+  var actionEl=gid('ad-action-'+adTaskId);
+  if(!actionEl)return;
+
+  var seconds=5;
+  actionEl.innerHTML='<div class="ad-timer"><svg width="44" height="44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--orange)" stroke-width="3" stroke-dasharray="113" stroke-dashoffset="0" id="ad-ring-'+adTaskId+'" style="transform:rotate(-90deg);transform-origin:22px 22px;transition:stroke-dashoffset 1s linear"/></svg><div class="ad-timer-num" id="ad-num-'+adTaskId+'">'+seconds+'</div></div>';
+
+  var interval=setInterval(function(){
+    seconds--;
+    var numEl=gid('ad-num-'+adTaskId);
+    var ringEl=gid('ad-ring-'+adTaskId);
+    if(numEl)numEl.textContent=seconds;
+    if(ringEl){
+      var offset=113*(1-seconds/5);
+      ringEl.style.strokeDashoffset=offset;
+    }
+    if(seconds<=0){
+      clearInterval(interval);
+      _adTimers[adTaskId].active=false;
+      // Complete the ad task
+      completeAdTask(task);
+    }
+  },1000);
+}
+
+function completeAdTask(task){
+  if(!G.uid||G.isGuest){toast('Please log in','error');renderAdTasks();return;}
+
+  // Unique key per completion (allows multiple per day up to max)
+  var count=getAdCount(task.dailyKey);
+  var key=task.dailyKey+'_'+_todayStr+'_'+count;
+  if(!G.completedTasks)G.completedTasks=[];
+  G.completedTasks.push(key);
+  consumeSlot();
+
+  var updates={completedTasks:G.completedTasks,taskSlots:G.taskSlots};
+  var msg='';
+
+  if(task.reward>0){
+    G.bal=(parseFloat(G.bal)||0)+task.reward;
+    G._dailyEarned=(parseFloat(G._dailyEarned)||0)+task.reward;
+    updates.bal=G.bal;updates._dailyEarned=G._dailyEarned;
+    msg+='+'+fP(task.reward)+' ';
+  }
+  if(task.spin){
+    G.spins=(parseInt(G.spins)||0)+task.spin;
+    updates.spins=G.spins;
+    msg+='+'+task.spin+' SPIN ';
+  }
+  if(task.trades){
+    G.tradeQuota=(parseInt(G.tradeQuota)||0)+task.trades;
+    updates.tradeQuota=G.tradeQuota;
+    msg+='+'+task.trades+' TRADES ';
+  }
+
+  savePlayer(updates);
+  updateHeroUI();
+  toast(msg.trim()+' — Ad reward claimed!','success');
+  renderAdTasks();
+}
+
+/* ── INFO TAB ── */
+function renderInfoTab(){
+  var el=gid('task-list');el.innerHTML='';
+
+  // Earn table
+  var tbl=document.createElement('div');tbl.className='earn-table';
+  tbl.innerHTML='<div class="earn-table-title">MAX DAILY EARNINGS BY VIP TIER</div>';
+  var rows=[
+    {tier:'Free',emoji:'',tierClass:'color:var(--t2)',slots:5,earn:'~$0.80'},
+    {tier:'Silver',emoji:'🥈',tierClass:'color:#c0c0c0',slots:10,earn:'~$2.00'},
+    {tier:'Gold',emoji:'🥇',tierClass:'color:var(--gold)',slots:20,earn:'~$5.00'},
+    {tier:'Diamond',emoji:'💎',tierClass:'color:var(--cyan)',slots:40,earn:'~$12.00'},
+    {tier:'Hacker',emoji:'👾',tierClass:'color:var(--red)',slots:40,earn:'~$18.00'},
+  ];
+  rows.forEach(function(r){
+    var row=document.createElement('div');row.className='et-row';
+    row.innerHTML='<div class="et-tier" style="'+r.tierClass+'">'+r.emoji+' '+r.tier+'</div>'+
+      '<div class="et-slots">'+r.slots+' slots</div>'+
+      '<div class="et-earn">'+r.earn+'</div>';
+    tbl.appendChild(row);
+  });
+  el.appendChild(tbl);
+
+  // Rules
+  var rules=document.createElement('div');
+  rules.style.cssText='margin:10px 12px;background:var(--s1);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px';
+  rules.innerHTML='<div style="font-family:var(--fhd);font-size:.4rem;color:var(--t3);letter-spacing:1px;margin-bottom:10px">TASK RULES</div>'+[
+    '📌 Slots reset at midnight UTC',
+    '🚫 Same task cannot be claimed twice per day',
+    '📺 Ad tasks have minimum 60s between attempts',
+    '👥 You cannot complete your own community task',
+    '🔒 XP capped at 500 XP per day from tasks',
+    '💎 ZENZ capped at 5 ZENZ per day from tasks',
+    '💰 Community task rewards held in escrow (10% platform fee)',
+    '⏰ Community tasks expire in 24 hours',
+    '🔄 Unused escrow returned to task creator',
+  ].map(function(r){return '<div style="font-size:.5rem;color:var(--t2);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5">'+r+'</div>';}).join('');
+  el.appendChild(rules);
+}
+
+/* ── TAB SWITCHER ── */
+function switchTab(el,tab){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  _tab=tab;
+  if(tab==='platform')renderPlatformTasks();
+  else if(tab==='community')renderCommunityTasks();
+  else if(tab==='ads')renderAdTasks();
+  else if(tab==='info')renderInfoTab();
+}
+
+/* ── COMMUNITY TASK CREATE MODAL ── */
+function openCreateModal(){
+  var tier=getVIPTier();
+  if(tier==='free'){toast('Silver VIP+ required to create tasks','error');return;}
+  gid('ct-name').value='';gid('ct-desc').value='';gid('ct-reward').value='';gid('ct-slots').value='';
+  gid('ct-err').textContent='';gid('ct-cost').textContent='';
+  gid('create-modal').classList.add('open');
+}
+function closeCreateModal(){gid('create-modal').classList.remove('open');}
+
+// Update cost display
+function updateCostDisplay(){
+  var r=parseFloat(gid('ct-reward').value)||0;
+  var s=parseInt(gid('ct-slots').value)||0;
+  if(r&&s){
+    var total=r*s;
+    var fee=total*0.1;
+    var cost=total+fee;
+    gid('ct-cost').textContent='Total escrow: '+fP(total)+' + '+fP(fee)+' fee = '+fP(cost)+' deducted from your balance';
+  }
+}
+document.addEventListener('input',function(e){if(e.target.id==='ct-reward'||e.target.id==='ct-slots')updateCostDisplay();});
+
+function submitCommunityTask(){
+  var name=(gid('ct-name').value||'').trim();
+  var desc=(gid('ct-desc').value||'').trim();
+  var reward=parseFloat(gid('ct-reward').value)||0;
+  var slots=parseInt(gid('ct-slots').value)||0;
+  var err=gid('ct-err');
+
+  if(!name||!desc){err.textContent='Fill all fields';return;}
+  if(reward<0.10||reward>10){err.textContent='Reward must be $0.10 – $10.00';return;}
+  if(slots<1||slots>500){err.textContent='Slots: 1 – 500';return;}
+  if(!G.uid||G.isGuest){err.textContent='Please log in';return;}
+
+  var totalCost=(reward*slots)*1.1; // +10% fee
+  if((parseFloat(G.bal)||0)<totalCost){err.textContent='Insufficient balance (need '+fP(totalCost)+')';return;}
+
+  err.textContent='';
+  G.bal=(parseFloat(G.bal)||0)-totalCost;
+
+  var expiry=new Date(Date.now()+86400000); // 24 hours
+
+  db.collection('communityTasks').add({
+    name:name,description:desc,
+    rewardPerSlot:reward*(1-0.1), // net reward after fee
+    rewardGross:reward,
+    slots:slots,slotsUsed:0,
+    creatorUid:G.uid,creatorName:G.name||'Player',
+    status:'active',
+    escrow:reward*slots,
+    fee:reward*slots*0.1,
+    expiry:FS.FieldValue.serverTimestamp?expiry:expiry,
+    ts:FS.FieldValue.serverTimestamp?FS.FieldValue.serverTimestamp():new Date(),
+    completers:[]
+  }).then(function(){
+    savePlayer({bal:G.bal});
+    updateHeroUI();
+    closeCreateModal();
+    toast('Task published! Players can now claim it.','success');
+    renderCommunityTasks();
+  }).catch(function(e){err.textContent='Error: '+e.message;G.bal=(parseFloat(G.bal)||0)+totalCost;});
+}
+
+/* ── UI UPDATE ── */
+function updateHeroUI(){
+  if(gid('hero-name'))gid('hero-name').textContent=(G.name||'Player')+' — '+((G.pid||G.uid||'').slice(0,10));
+  if(gid('hero-bal'))gid('hero-bal').textContent=fP(G.bal||0);
+
+  var tier=getVIPTier();
+  var pill=gid('vip-pill');
+  if(pill){
+    pill.className='vip-pill vip-'+tier;
+    pill.textContent={free:'FREE TIER',silver:'🥈 SILVER VIP',gold:'🥇 GOLD VIP',diamond:'💎 DIAMOND VIP',hacker:'👾 HACKER VIP'}[tier]||'FREE';
+  }
+
+  var used=getSlotsUsed();
+  var max=getMaxSlots();
+  var pct=Math.min(100,(used/max)*100);
+  if(gid('slots-txt'))gid('slots-txt').textContent=used+'/'+max;
+  if(gid('slot-bar-val'))gid('slot-bar-val').textContent=used+' / '+max;
+  if(gid('slot-fill'))gid('slot-fill').style.width=pct+'%';
+  if(gid('slot-bar-wrap'))gid('slot-bar-wrap').classList.toggle('slot-exhausted',used>=max);
+
+  var earned=parseFloat(G._dailyEarned||0);
+  var xpTdy=parseInt(G._dailyXP||0);
+  var zenzTdy=parseInt(G._dailyZENZ||0);
+
+  if(gid('earned-today'))gid('earned-today').textContent=fP(earned);
+  if(gid('xp-today'))gid('xp-today').textContent=xpTdy;
+  if(gid('zenz-today'))gid('zenz-today').textContent=zenzTdy;
+}
+
+/* ── BOOT ── */
+var ZCS={
+  restore:function(){
+    try{
+      var p=new URLSearchParams(window.location.search);
+      var enc=p.get('u');
+      if(enc){var dec=atob(decodeURIComponent(enc));G.uid=dec.split('|')[0];sessionStorage.setItem('_zc_uid',G.uid||'');return;}
+      var cu=sessionStorage.getItem('_zc_uid');if(cu)G.uid=cu;
+      var gs=sessionStorage.getItem('_zc_gdata');
+      if(gs){try{Object.assign(G,JSON.parse(gs));}catch(e){}}
+    }catch(e){}
+  },
+  sendReady:function(){try{if(window.parent!==window)window.parent.postMessage({type:'ZC_READY',page:'tasks'},'*');}catch(e){}}
+};
+
+(function(){
+  ZCS.restore();
+  _todayStr=getTodayUTC();
+
+  // Check if daily slots need reset
+  if(G.taskSlots&&G.taskSlots.date!==_todayStr){
+    G._dailyEarned=0;G._dailyXP=0;G._dailyZENZ=0;
+  }
+
+  var _done=false;
+  window._retryNow=function(){window._hideOffline&&window._hideOffline();if(!_done)startAuth();else renderPlatformTasks();};
+
+  function startAuth(){
+    window._hideOffline&&window._hideOffline();
+    if(typeof firebase==='undefined'){
+      if(!window._fbT)window._fbT=0;window._fbT++;
+      if(window._fbT>60){boot();return;}
+      setTimeout(startAuth,30);return;
+    }
+    if(!db){
+      try{
+        if(!firebase.apps.length)firebase.initializeApp(window._FC||{});
+        db=firebase.firestore();auth=firebase.auth();rtdb=firebase.database();FS=firebase.firestore;
+      }catch(e){setTimeout(startAuth,50);return;}
+    }
+    auth.onAuthStateChanged(function(user){
+      if(_done)return;_done=true;
+      if(user){
+        G.uid=user.uid;
+        db.collection('players').doc(user.uid).get().then(function(snap){
+          if(snap.exists)Object.assign(G,snap.data());
+          // Reset daily counters if new day
+          if(!G.taskSlots||G.taskSlots.date!==_todayStr){
+            G._dailyEarned=0;G._dailyXP=0;G._dailyZENZ=0;
+          }
+          _todayStr=getTodayUTC();
+          boot();
+        }).catch(function(){boot();});
+      } else {
+        boot();
+      }
+    },function(){window._showOffline&&window._showOffline('Auth error. Check connection.');});
+    setTimeout(function(){if(!_done){_done=true;boot();}},7000);
+  }
+
+  function boot(){
+    ZCS.sendReady();
+    updateHeroUI();
+    renderPlatformTasks();
+  }
+
+  startAuth();
+})();
+</script>
+</body>
+</html>
